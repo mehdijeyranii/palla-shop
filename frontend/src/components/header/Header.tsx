@@ -1,7 +1,7 @@
 import { Container } from "../common";
-import TopBanner from "../ui/TopBanner";
 import SummerBanner from "../../assets/images/banner/01.gif";
 import { useEffect, useRef, useState } from "react";
+import { Logo, TopBanner } from "../ui";
 
 // const ads = {
 //   text: "تا 99% تخفیف ویژه محصولات پر فروش",
@@ -38,7 +38,9 @@ const Header = () => {
       aria-label="Main header"
     >
       {showBanner && <TopBanner imageSrc={SummerBanner} linkTo="/products" />}
-      <Container>Header</Container>
+      <Container>
+        <Logo />
+      </Container>
     </header>
   );
 };
