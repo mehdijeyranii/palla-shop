@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-ExtraLight.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-ExtraLight.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-Light.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-Regular.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-Medium.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-SemiBold.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-SemiBold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: bold;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-Bold.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-ExtraBold.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-ExtraBold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "PeydaFaNumWeb";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/woff2/PeydaFaNumWeb-Black.woff2") format("woff2"),
+    url("/fonts/woff/PeydaFaNumWeb-Black.woff") format("woff");
+}

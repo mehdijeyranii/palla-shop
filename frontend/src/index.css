@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme inline {
+  --font-peyda: "PeydaFaNumWeb", sans-serif;
+  --breakpoint-xs: 25rem;
+}
+
+body{
+    @apply font-peyda;
+}
