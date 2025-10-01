@@ -1,12 +1,17 @@
-import React from "react";
+import { Footer, Header } from "@/components";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div>
-      <main className="max-w-7xl mx-auto">
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main
+        className="flex-grow max-w-7xl mx-auto w-full"
+        aria-label="Main content"
+      >
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };
