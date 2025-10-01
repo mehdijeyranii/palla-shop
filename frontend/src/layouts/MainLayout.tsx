@@ -6,7 +6,7 @@ const MainLayout = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main
-        className="flex-grow max-w-7xl mx-auto w-full"
+        className="flex-grow max-w-7xl mx-auto w-full mt-30"
         aria-label="Main content"
       >
         <Outlet />

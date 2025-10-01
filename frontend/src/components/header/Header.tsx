@@ -3,6 +3,7 @@ import SummerBanner from "../../assets/images/banner/01.gif";
 import { useEffect, useRef, useState } from "react";
 import { Logo, TopBanner, VerticalDivider } from "../ui";
 import SearchBar from "./SearchBar";
+import UserActions from "./UserActions";
 
 // const ads = {
 //   text: "تا 99% تخفیف ویژه محصولات پر فروش",
@@ -45,6 +46,9 @@ const Header = () => {
             <Logo />
             <VerticalDivider />
             <SearchBar />
+          </div>
+          <div className="w-2/5 md:w-2/6 h-10 hidden md:flex justify-end items-center gap-2">
+            <UserActions />
           </div>
         </div>
       </Container>
