@@ -1,7 +1,8 @@
 import { Container } from "../common";
 import SummerBanner from "../../assets/images/banner/01.gif";
 import { useEffect, useRef, useState } from "react";
-import { Logo, TopBanner } from "../ui";
+import { Logo, TopBanner, VerticalDivider } from "../ui";
+import SearchBar from "./SearchBar";
 
 // const ads = {
 //   text: "تا 99% تخفیف ویژه محصولات پر فروش",
@@ -34,12 +35,18 @@ const Header = () => {
 
   return (
     <header
-      className="bg-zinc-200 w-full fixed top-0 right-0"
+      className="bg-white w-full fixed top-0 right-0 z-50 border-b border-zinc-300"
       aria-label="Main header"
     >
       {showBanner && <TopBanner imageSrc={SummerBanner} linkTo="/products" />}
       <Container>
-        <Logo />
+        <div className="w-full h-full flex justify-center md:justify-between items-center py-2">
+          <div className="w-full md:w-4/5 h-full flex justify-center md:justify-start items-center gap-2 relative">
+            <Logo />
+            <VerticalDivider />
+            <SearchBar />
+          </div>
+        </div>
       </Container>
     </header>
   );

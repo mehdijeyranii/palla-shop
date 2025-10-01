@@ -5,7 +5,7 @@ const Logo = () => {
   return (
     <Link
       to="/"
-      className="block w-20 md:w-28"
+      className="block w-24 md:w-28"
       aria-label="بازگشت به صفحه اصلی پالادیوم شاپ"
     >
       <img
