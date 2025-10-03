@@ -3,25 +3,30 @@ import { Loader2, Search } from "lucide-react";
 import { mockProducts, type IProduct } from "@/utils/mockData";
 import { Link } from "react-router-dom";
 import { VerticalDivider } from "../ui";
+import { useUIStore } from "@/store/uiStore";
 
 const DEBOUNCE_DELAY = 300;
 
 const SearchBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, []);
+  const activeOverlay = useUIStore((state) => state.activeOverlay);
+  const setActiveOverlay = useUIStore((state) => state.setActiveOverlay);
 
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
+  const isOpen = activeOverlay === "search";
+  const openSearch = useCallback(() => {
+    setActiveOverlay("search");
+  }, [setActiveOverlay]);
+
+  const closeSearch = useCallback(() => {
+    setActiveOverlay(null);
     setResults([]);
-  }, []);
+  }, [setActiveOverlay, setResults]);
 
   const performSearch = useCallback((searchTerm: string) => {
     if (!searchTerm.trim()) {
@@ -45,6 +50,7 @@ const SearchBar = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Debounce search
   useEffect(() => {
     if (!isOpen) return;
 
@@ -55,56 +61,48 @@ const SearchBar = () => {
     return () => clearTimeout(handler);
   }, [query, isOpen, performSearch]);
 
+  // Focus input & handle outside click
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        closeModal();
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeModal();
-    };
-
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node)
+        ) {
+          closeSearch();
+        }
+      };
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") closeSearch();
+      };
+
+      // Focus input
       inputRef.current?.focus();
-    } else {
-      document.body.style.overflow = "";
-    }
 
-    if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
-    }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [isOpen, closeModal]);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isOpen, closeSearch]);
 
   return (
     <div ref={containerRef} className="relative w-full md:w-4/7">
       <div
-        className="relative h-12 rounded-md overflow-hidden z-50"
-        onClick={openModal}
+        className="relative h-12 rounded-md overflow-hidden cursor-pointer"
+        onClick={openSearch}
       >
         <input
           type="text"
-          className={`w-full h-full rounded-md px-4 pr-12 text-sm focus:outline-0 ${
-            isOpen ? "bg-zinc-100 " : "bg-zinc-200/60"
-          } `}
+          className={`w-full h-full rounded-md px-4 pr-12 text-sm focus:outline-0 bg-[#ECECEE]`}
           placeholder="محصول، برند یا دسته مورد نظرتان را جستجو کنید"
           aria-label="جستجوی محصول"
-          ref={inputRef}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          autoFocus
+          onChange={(e) => isOpen && setQuery(e.target.value)}
         />
         <Search
           className="absolute top-1/2 -translate-y-1/2 right-4 text-zinc-400 pointer-events-none"
@@ -115,15 +113,7 @@ const SearchBar = () => {
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-zinc-900/30 z-40"
-          onClick={closeModal}
-          aria-hidden="true"
-        />
-      )}
-
-      {isOpen && (
-        <div
-          className="absolute top-full right-0 mt-2 w-full max-h-96 overflow-y-auto bg-white shadow-md rounded-md z-50"
+          className="absolute top-full right-0 mt-3 w-full max-h-96 overflow-hidden overflow-y-auto bg-white shadow-2xl rounded-md z-50 border border-zinc-300"
           role="dialog"
           aria-modal="true"
           aria-label="نتایج جستجو"
@@ -141,7 +131,7 @@ const SearchBar = () => {
                       <Link
                         to={`/product/${product.id}`}
                         className="px-4 py-3 border-r-4 border-transparent bg-transparent hover:border-zinc-500 hover:bg-zinc-100 flex items-center gap-4 transition-all duration-200"
-                        onClick={closeModal}
+                        onClick={closeSearch}
                       >
                         <Search className="text-zinc-500" strokeWidth={1.5} />
                         <VerticalDivider height="h-10" />

@@ -1,11 +1,25 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
+:root {
+  --zinc-200: #ececee;
+}
+
 @theme inline {
   --font-peyda: "PeydaFaNumWeb", sans-serif;
   --breakpoint-xs: 25rem;
+  --color-hover-section: var(--zinc-200);
 }
 
-body{
-    @apply font-peyda;
+body {
+  @apply font-peyda;
+}
+
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #7f7f7f #e0e0e0;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
 }
