@@ -2,8 +2,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useCallback, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIStore } from "@/store/uiStore";
-import { CartTrigger } from "../ui";
-import CartDropdown from "../ui/cart/CartDropdown";
+import { CartDropdown, CartTrigger } from "../ui";
 
 const CartButton = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);

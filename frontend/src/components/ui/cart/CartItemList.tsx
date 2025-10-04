@@ -104,8 +104,8 @@ const CartItemList: React.FC<CartItemListProps> = ({ items }) => {
                   <Trash2 size={20} strokeWidth={1.5} />
                 </button>
               </div>
-              <span className="text-[10px] text-zinc-700 mt-4 inline-block">
-                <strong className="text-sm ml-2">
+              <span className="text-[10px] text-zinc-700 mb-1 mt-3 inline-block">
+                <strong className="text-sm ml-2 bg-zinc-200 px-2 py-0.5 rounded">
                   {(item.price * item.quantity).toLocaleString()}
                 </strong>{" "}
                 تومان

@@ -1,47 +1,59 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useCartStore } from "@/store/cartStore";
+import { useUIStore } from "@/store/uiStore";
+import { useNavigate } from "react-router-dom";
 
-interface CartFooterProps {
-  onClose: () => void;
-  hasItems: boolean;
-  itemCount: number;
-  totalPrice: number;
-}
+const SHIPPING_COST = 158000;
 
-const CartFooter: React.FC<CartFooterProps> = ({
-  onClose,
-  hasItems,
-  itemCount,
-  totalPrice,
-}) => {
-  if (!hasItems) return null;
+const CartFooter = () => {
+  const { clearCart, totalPrice } = useCartStore();
+  const setActiveOverlay = useUIStore((state) => state.setActiveOverlay);
+  const navigate = useNavigate();
+
+  const totalWithShipping = totalPrice + SHIPPING_COST;
+
+  const handleViewCart = () => {
+    setActiveOverlay(null);
+    navigate("/cart");
+  };
+
+  const formatPrice = (price: number): string => {
+    return price.toLocaleString("fa-IR");
+  };
 
   return (
-    <div className="p-3 border-t border-zinc-200 flex flex-col gap-3">
-      {hasItems && (
-        <p className="text-sm text-zinc-500 mt-1 flex items-center justify-center gap-2">
-          <span>
-            <strong className="bg-zinc-200 px-2 rounded mx-1">
-              {itemCount}
-            </strong>
-            کالا
+    <div className="p-4 border-t border-zinc-200 flex flex-col gap-3">
+      <div className="bg-zinc-50 p-3 rounded-md space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span className="text-zinc-600">قیمت کالاها:</span>
+          <span className="font-medium">{formatPrice(totalPrice)} تومان</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-zinc-600">هزینه ارسال:</span>
+          <span className="font-medium">
+            {formatPrice(SHIPPING_COST)} تومان
           </span>
-          <div className="h-0.5 w-4 bg-zinc-400 inline-block rounded-full" />
-          <span>
-            <strong className="bg-zinc-200 px-2 rounded mx-1">
-              {totalPrice.toLocaleString()}
-            </strong>
-            تومان
-          </span>
-        </p>
-      )}
-      <Link
-        to="/cart"
-        className="block w-full text-center bg-sky-600 hover:bg-sky-700 text-white text-sm py-2 rounded-md transition-colors"
-        onClick={onClose}
+        </div>
+        <hr className="border-zinc-200 my-1" />
+        <div className="flex justify-between text-green-600 font-bold">
+          <span>جمع کل:</span>
+          <span>{formatPrice(totalWithShipping)} تومان</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={handleViewCart}
+        className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2.5 rounded-md font-medium transition-colors cursor-pointer"
       >
         مشاهده سبد خرید
-      </Link>
+      </button>
+      <button
+        type="button"
+        onClick={clearCart}
+        className="w-full bg-white hover:bg-rose-600/10 text-rose-600 py-2 rounded-md transition-colors border border-rose-300 cursor-pointer"
+      >
+        خالی کردن سبد
+      </button>
     </div>
   );
 };
