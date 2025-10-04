@@ -1,5 +1,13 @@
 import { MainLayout } from "@/layouts";
-import { About, Cart, Home, NotFound, ProductList } from "@/pages";
+import {
+  About,
+  Cart,
+  Home,
+  Login,
+  NotFound,
+  ProductList,
+  Register,
+} from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -13,6 +21,8 @@ const router = createBrowserRouter([
       { path: "/product", element: <ProductList /> },
     ],
   },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
 ]);
 
 export default router;

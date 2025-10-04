@@ -30,9 +30,9 @@ const CartItemList: React.FC<CartItemListProps> = ({ items }) => {
   };
 
   return (
-    <ul className="max-h-80 scroll-smooth space-y-2 snap-y snap-proximity overflow-y-auto p-2 custom-scroll">
+    <ul className="max-h-80 space-y-2 overflow-y-auto p-2 custom-scroll">
       {items.map((item, index) => (
-        <li className="p-1 snap-start" key={item.id}>
+        <li className="p-1" key={item.id}>
           <div className="flex items-start gap-4">
             <div className="w-20 aspect-square p-1 bg-zinc-200 rounded">
               <img

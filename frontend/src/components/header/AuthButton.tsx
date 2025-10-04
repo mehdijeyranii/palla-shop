@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/authStore";
 import { useUIStore } from "@/store/uiStore";
 import {
   Bell,
@@ -11,7 +12,8 @@ import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const AuthButton = () => {
-  const isAuthenticated = true;
+  const { user, logout } = useAuthStore();
+  const isAuthenticated = !!user;
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -22,14 +24,16 @@ const AuthButton = () => {
 
   const toggleAccount = () => {
     if (!isAuthenticated) {
-      navigate("/register");
+      navigate("/login");
     } else {
-      if (activeOverlay === "account") {
-        setActiveOverlay(null);
-      } else {
-        setActiveOverlay("account");
-      }
+      setActiveOverlay(activeOverlay === "account" ? null : "account");
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setActiveOverlay(null);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -56,7 +60,11 @@ const AuthButton = () => {
         onClick={toggleAccount}
         className="h-10 flex items-center gap-2 px-4 border border-zinc-300 rounded-md cursor-pointer group-hover:bg-zinc-100 transition-all duration-300"
       >
-        <span>{isAuthenticated ? "حساب کاربری" : "ثبت‌نام | ورود"}</span>
+        <span>
+          {isAuthenticated
+            ? "سلام، " + user.name || "حساب کاربری"
+            : "ثبت‌نام | ورود"}
+        </span>
         <UserRound strokeWidth={1.5} size={18} />
       </button>
 
@@ -113,9 +121,7 @@ const AuthButton = () => {
             <li className="">
               <button
                 className="px-2 py-2.5 rounded-md flex items-center bg-rose-600/10 text-rose-600 gap-2 w-full cursor-pointer"
-                onClick={() => {
-                  setActiveOverlay(null);
-                }}
+                onClick={handleLogout}
               >
                 <LogOut size={20} strokeWidth={1.5} />
                 <span className="">خروج</span>
