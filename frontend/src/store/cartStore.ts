@@ -8,8 +8,8 @@ interface CartState {
   totalPrice: number;
 
   addToCart: (product: CartItem) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeFromCart: (productId: string | number) => void;
+  updateQuantity: (productId: string | number, quantity: number) => void;
   clearCart: () => void;
 }
 

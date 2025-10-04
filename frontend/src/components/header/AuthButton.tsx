@@ -1,3 +1,4 @@
+import { useUIStore } from "@/store/uiStore";
 import {
   Bell,
   ClipboardList,
@@ -6,30 +7,40 @@ import {
   Signpost,
   UserRound,
 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const AuthButton = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const isAuthenticated = true;
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClick = () => {
+  const activeOverlay = useUIStore((state) => state.activeOverlay);
+  const setActiveOverlay = useUIStore((state) => state.setActiveOverlay);
+
+  const isOpen = activeOverlay === "account" && isAuthenticated;
+
+  const toggleAccount = () => {
     if (!isAuthenticated) {
       navigate("/register");
     } else {
-      setIsDropdownOpen((prev) => !prev);
+      if (activeOverlay === "account") {
+        setActiveOverlay(null);
+      } else {
+        setActiveOverlay("account");
+      }
     }
   };
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsDropdownOpen(false);
+        setActiveOverlay(null);
       }
     };
 
@@ -37,24 +48,24 @@ const AuthButton = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen, setActiveOverlay]);
 
   return (
     <div className="relative group" ref={dropdownRef}>
       <button
-        onClick={handleClick}
+        onClick={toggleAccount}
         className="h-10 flex items-center gap-2 px-4 border border-zinc-300 rounded-md cursor-pointer group-hover:bg-zinc-100 transition-all duration-300"
       >
         <span>{isAuthenticated ? "حساب کاربری" : "ثبت‌نام | ورود"}</span>
         <UserRound strokeWidth={1.5} size={18} />
       </button>
 
-      {isAuthenticated && isDropdownOpen && (
-        <div className="absolute left-0 mt-1 w-64 bg-white border border-zinc-200 rounded-md shadow-xl">
+      {isOpen && (
+        <div className="absolute left-0 mt-2 w-80 bg-white border border-zinc-200 rounded-lg shadow-xl">
           <ul className="flex flex-col p-2 gap-2">
             <li className="">
               <Link
-                className="px-2 py-2.5 rounded-md flex items-center hover:bg-zinc-100 transition-all duration-300 gap-2"
+                className="px-2 py-2.5 rounded-md flex items-center hover:bg-hover-section transition-all duration-300 gap-2"
                 to="/profile"
               >
                 <UserRound size={20} />
@@ -64,7 +75,7 @@ const AuthButton = () => {
             <hr className="text-zinc-300" />
             <li className="">
               <Link
-                className="px-2 py-2.5 rounded-md flex items-center hover:bg-zinc-100 transition-all duration-300 gap-2"
+                className="px-2 py-2.5 rounded-md flex items-center hover:bg-hover-section transition-all duration-300 gap-2"
                 to="/profile/favorites"
               >
                 <Heart size={20} />
@@ -73,7 +84,7 @@ const AuthButton = () => {
             </li>
             <li className="">
               <Link
-                className="px-2 py-2.5 rounded-md flex items-center hover:bg-zinc-100 transition-all duration-300 gap-2"
+                className="px-2 py-2.5 rounded-md flex items-center hover:bg-hover-section transition-all duration-300 gap-2"
                 to="/profile/addresses"
               >
                 <Signpost size={20} />
@@ -82,7 +93,7 @@ const AuthButton = () => {
             </li>
             <li className="">
               <Link
-                className="px-2 py-2.5 rounded-md flex items-center hover:bg-zinc-100 transition-all duration-300 gap-2"
+                className="px-2 py-2.5 rounded-md flex items-center hover:bg-hover-section transition-all duration-300 gap-2"
                 to="/profile/orders"
               >
                 <ClipboardList size={20} />
@@ -91,7 +102,7 @@ const AuthButton = () => {
             </li>
             <li className="">
               <Link
-                className="px-2 py-2.5 rounded-md flex items-center hover:bg-zinc-100 transition-all duration-300 gap-2"
+                className="px-2 py-2.5 rounded-md flex items-center hover:bg-hover-section transition-all duration-300 gap-2"
                 to="/profile/notifications"
               >
                 <Bell size={20} />
@@ -100,7 +111,12 @@ const AuthButton = () => {
             </li>
             <hr className="text-zinc-300" />
             <li className="">
-              <button className="px-2 py-2.5 rounded-md flex items-center bg-rose-600/10 text-rose-600 gap-2 w-full cursor-pointer">
+              <button
+                className="px-2 py-2.5 rounded-md flex items-center bg-rose-600/10 text-rose-600 gap-2 w-full cursor-pointer"
+                onClick={() => {
+                  setActiveOverlay(null);
+                }}
+              >
                 <LogOut size={20} strokeWidth={1.5} />
                 <span className="">خروج</span>
               </button>
